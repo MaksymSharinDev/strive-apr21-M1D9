@@ -67,22 +67,19 @@
     }
     function genRand() {
       let numberSlot
-        console.log( 'genRand')
-        console.log( N )
         N = randMinMax(1, 76)
-        return usedNumbers.filter(usedN => N !== usedN).length === 0 ? 
-        (() => {
-            paintNumber(N)
+        if (usedNumbers.filter(usedN => N === usedN).length === 0 ) {
+          paintNumber(N)
             lightCell(N)
             usedNumbers.push(N)
-
             return N
-          })()
-        : (() => { return this() })()
-      
+        }else{
+          return genRand()
+        }
     }
     (function initBingoBoard() {
         let bingoBoard = document.getElementById('bingoBoard')
+        let nCell = 0
         for (let i = 0; i < 6; i++) {
           let gridRow = document.createElement('div')
           gridRow.classList.add('grid-row')
@@ -90,7 +87,8 @@
           for (let j = 0; j < 12; j++) {
             let gridCell = document.createElement('div')
             gridCell.classList.add('grid-cell')
-            gridCell.innerText = (i + 1)*(j+1) 
+            nCell++
+            gridCell.innerText = nCell
             gridRow.append(gridCell)
           }
         }
