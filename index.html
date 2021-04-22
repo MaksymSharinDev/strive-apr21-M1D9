@@ -64,11 +64,10 @@
 
     let lightCell = n => {
       let cells = document.querySelectorAll('.grid-cell')
-      console.log ( cells )
+      
       cells[ n-1 ].style.backgroundColor = 'yellow'
     }
     let paintNumber = n => {
-      console.log ( 'paintNumber', n)
       let nSlot = document.getElementById('numberSlot')
       nSlot.innerText = n
     }
