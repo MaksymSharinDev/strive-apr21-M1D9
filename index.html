@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<!--
+            BINGO CHALLENGE!!!
+            Create programmatically (with JS) a BINGO board with 76 cells, from 1 to 76.
+            Create a button to randomize a number from 1 to 76. The same number should be highlighted on the bingo board
+
+            EXTRA: 
+            - Take ALWAYS a new number (eg. avoid randoming the number 10 3 times)
+            - Create a USER BOARD with 24 randomized numbers that highlights as the main board does
+            - Let the user choose HOW MANY user boards he's willing to play with and create them.
+        -->
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="style/board.css">
+  <style>
+    .game-container {
+      width: 1475px;
+      height: 750px;
+      transform: scale(0.9);
+      position: relative;
+      top: -40px;
+    }
+  </style>
+</head>
+
+<body class="row justify-items-center " ;>
+
+  <div class="container" style="text-align: center; width: clamp(400px,20%,600px); margin-top: 40px">
+
+
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 id="numberSlot" class="card-title">Number is: </h5>
+        <button id="getNbtn" type="button" class="btn btn-info" style="min-width: 100px;" > Get The number
+        </button>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="game-container">
+    <div id="bingoBoard" class="grid-container">
+    </div>
+  </div>
+
+
+  <script>
+
+    const randMinMax = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
+
+    let usedNumbers = []
+    let N = 0
+
+    let lightCell = n => {
+      let cells = document.querySelectorAll('.grid-cell')
+      console.log ( cells )
+      cells[ n-1 ].style.backgroundColor = 'yellow'
+    }
+    let paintNumber = n => {
+      console.log ( 'paintNumber', n)
+      let nSlot = document.getElementById('numberSlot')
+      nSlot.innerText = n
+    }
+    function genRand() {
+      let numberSlot
+        console.log( 'genRand')
+        console.log( N )
+        N = randMinMax(1, 76)
+        return usedNumbers.filter(usedN => N !== usedN).length === 0 ? 
+        (() => {
+            paintNumber(N)
+            lightCell(N)
+            usedNumbers.push(N)
+
+            return N
+          })()
+        : (() => { return this() })()
+      
+    }
+    (function initBingoBoard() {
+        let bingoBoard = document.getElementById('bingoBoard')
+        for (let i = 0; i < 6; i++) {
+          let gridRow = document.createElement('div')
+          gridRow.classList.add('grid-row')
+          bingoBoard.append(gridRow)
+          for (let j = 0; j < 12; j++) {
+            let gridCell = document.createElement('div')
+            gridCell.classList.add('grid-cell')
+            gridCell.innerText = (i + 1)*(j+1) 
+            gridRow.append(gridCell)
+          }
+        }
+        let nBtn = document.getElementById('getNbtn')
+        nBtn.addEventListener('click', genRand )
+
+      })()
+  </script>
+</body>
+
+</html>
+<!-- 
+  
+      <div class="grid-row">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+    </div>
+-->
